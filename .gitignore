@@ -4,3 +4,4 @@
 *.vcxproj
 *.vcxproj.*
 output
+premake5.exe
