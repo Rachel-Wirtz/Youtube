@@ -2,5 +2,5 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Hello, Youtube!";
+    std::cout << "Hello, Youtube!" << std::endl;
 }
