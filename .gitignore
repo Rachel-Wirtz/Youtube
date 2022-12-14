@@ -6,3 +6,4 @@
 output
 premake5.exe
 *.tga
+*.dat
