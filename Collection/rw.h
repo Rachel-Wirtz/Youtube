@@ -50,6 +50,7 @@ constexpr auto to_byte_array(const InputIterator begin, const InputIterator end)
 
 template<typename OutputIterator, typename T = typename std::iterator_traits<OutputIterator>::value_type>
 constexpr auto from_byte_array(const std::vector<byte_array<T>>& from, OutputIterator output) -> OutputIterator {
+    // Testii
     return from_byte_array(from.begin(), from.end(), output);
 }
 
