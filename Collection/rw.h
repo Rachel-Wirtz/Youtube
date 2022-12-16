@@ -40,17 +40,4 @@ constexpr auto from_byte_array(const InputIterator begin, const InputIterator en
     return output;
 }
 
-template<typename InputIterator, typename T = typename std::iterator_traits<InputIterator>::value_type>
-constexpr auto to_byte_array(const InputIterator begin, const InputIterator end) -> std::vector<byte_array<T>> {
-    std::vector<byte_array<T>> result{};
-    result.reserve(std::distance(begin, end));
-    to_byte_array(begin, end, std::back_inserter(result));
-    return result;
-}
-
-template<typename OutputIterator, typename T = typename std::iterator_traits<OutputIterator>::value_type>
-constexpr auto from_byte_array(const std::vector<byte_array<T>>& from, OutputIterator output) -> OutputIterator {
-    return from_byte_array(from.begin(), from.end(), output);
-}
-
 RW_NAMESPACE_END
