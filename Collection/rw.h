@@ -3,7 +3,6 @@
 #include <bit>
 #include <array>
 #include <iterator>
-#include <vector>
 
 #define RW_NAMESPACE        rw
 #define RW_NAMESPACE_BEGIN  namespace RW_NAMESPACE {
@@ -12,32 +11,86 @@
 RW_NAMESPACE_BEGIN
 
 template<typename T>
-using byte_array = std::array<char, sizeof(T)>;
+class byte_array {
+public:
+    using array_type             = std::array<char, sizeof(T)>;
+    using iterator               = typename array_type::iterator;
+    using const_iterator         = typename array_type::const_iterator;
+    using reverse_iterator       = typename array_type::reverse_iterator;
+    using const_reverse_iterator = typename array_type::const_reverse_iterator;
 
-template<typename T>
-constexpr auto to_byte_array(const T& from) noexcept -> byte_array<T> {
-    return std::bit_cast<byte_array<T>>(from);
-}
-
-template<typename T>
-constexpr auto from_byte_array(const byte_array<T>& from) noexcept -> T {
-    return std::bit_cast<T>(from);
-}
-
-template<typename InputIterator, typename OutputIterator, typename T = typename std::iterator_traits<InputIterator>::value_type>
-constexpr auto to_byte_array(const InputIterator begin, const InputIterator end, OutputIterator output) -> OutputIterator {
-    for (auto it = begin; it != end; ++it, ++output) {
-        *output = std::bit_cast<byte_array<T>>(*it);
+    constexpr byte_array(const T& value) noexcept
+        : m_Data(std::bit_cast<array_type>(value))
+    {
     }
-    return output;
-}
 
-template<typename InputIterator, typename OutputIterator, typename T = typename std::iterator_traits<OutputIterator>::value_type>
-constexpr auto from_byte_array(const InputIterator begin, const InputIterator end, OutputIterator output) -> OutputIterator {
-    for (auto it = begin; it != end; ++it, ++output) {
-        *output = std::bit_cast<T>(*it);
+    constexpr auto data(void) const noexcept -> const char* {
+        return m_Data.data();
     }
-    return output;
-}
+
+    constexpr auto data(void) noexcept -> char* {
+        return m_Data.data();
+    }
+
+    constexpr auto size(void) noexcept -> size_t {
+        return m_Data.size();
+    }
+
+    constexpr operator T () const noexcept {
+        return std::bit_cast<T>(m_Data);
+    }
+
+    constexpr auto begin(void) noexcept -> iterator {
+        return m_Data.begin();
+    }
+
+    constexpr auto end(void) noexcept -> iterator {
+        return m_Data.end();
+    }
+
+    constexpr auto begin(void) const noexcept -> const_iterator {
+        return m_Data.begin();
+    }
+
+    constexpr auto end(void) const noexcept -> const_iterator {
+        return m_Data.end();
+    }
+
+    constexpr auto cbegin(void) const noexcept -> const_iterator {
+        return m_Data.cbegin();
+    }
+
+    constexpr auto cend(void) const noexcept -> const_iterator {
+        return m_Data.cend();
+    }
+
+    constexpr auto rbegin(void) noexcept -> reverse_iterator {
+        return m_Data.rbegin();
+    }
+
+    constexpr auto rend(void) noexcept -> reverse_iterator {
+        return m_Data.rend();
+    }
+
+    constexpr auto rbegin(void) const noexcept -> const_reverse_iterator {
+        return m_Data.rbegin();
+    }
+
+    constexpr auto rend(void) const noexcept -> const_reverse_iterator {
+        return m_Data.rend();
+    }
+
+    constexpr auto crbegin(void) const noexcept -> const_reverse_iterator {
+        return m_Data.crbegin();
+    }
+
+    constexpr auto crend(void) const noexcept -> const_reverse_iterator {
+        return m_Data.crend();
+    }
+
+private:
+    array_type m_Data{};
+};
+
 
 RW_NAMESPACE_END
